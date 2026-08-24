@@ -22,6 +22,7 @@ Durante esta primera etapa se ha realizado:
 - Android Studio
 - Android Emulator
 - GitHub
+- `flutter_launcher_icons` para generar el icono de la aplicación Android.
 
 ## Paquete externo
 
@@ -101,8 +102,21 @@ Al presionar el botón se muestra información adicional relacionada con los pr�
 Para implementar esta interacción se utilizó un `StatefulWidget` junto con `setState`.
 
 La variable `mostrarCuidados` permite controlar si la información adicional se encuentra visible u oculta.
-
 Cuando se presiona nuevamente el botón, el contenido se oculta y el texto cambia a **Ocultar próximos cuidados** o **Ver próximos cuidados**, dependiendo del estado actual.
+
+## Icono de la aplicación
+
+Se personalizó el icono de MediHuella para identificar la aplicación dentro del dispositivo Android.
+
+Para generar los diferentes tamaños requeridos por Android se utilizó el paquete:
+
+`flutter_launcher_icons`
+
+La imagen base utilizada se encuentra en:
+
+`assets/icon/app_icon.png`
+
+El icono combina una huella de mascota con un símbolo médico para representar el enfoque de MediHuella en el cuidado y seguimiento de la salud de las mascotas.
 
 ## Estado actual
 
