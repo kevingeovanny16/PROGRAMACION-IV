@@ -33,28 +33,28 @@ La instalación se realizó mediante:
 
 ```bash
 flutter pub add font_awesome_flutter
+```
 
 El paquete se utiliza actualmente para mostrar el ícono de huella que forma parte de la identidad visual de MediHuella.
 
-Objetivo del proyecto
+## Objetivo del proyecto
 
 El objetivo de MediHuella es evolucionar hasta convertirse en una aplicación que permita mantener organizada información importante relacionada con las mascotas, incluyendo:
 
-Datos generales.
-Peso.
-Vacunas.
-Desparasitación.
-Controles veterinarios.
-Recetas médicas.
-Próximos cuidados.
+- Datos generales.
+- Peso.
+- Vacunas.
+- Desparasitación.
+- Controles veterinarios.
+- Recetas médicas.
+- Próximos cuidados.
 
 Las funcionalidades serán incorporadas progresivamente durante las siguientes etapas del proyecto.
 
-Estado actual
+## Estado actual
 
 El proyecto cuenta actualmente con una identidad visual inicial y se ejecuta correctamente en un emulador Android.
 
-Autor
+## Autor
 
 Kevin Geovanny Minga Espinoza
-```
