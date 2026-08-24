@@ -24,8 +24,21 @@ class MediHuellaApp extends StatelessWidget {
   }
 }
 
-class InicioPage extends StatelessWidget {
+class InicioPage extends StatefulWidget {
   const InicioPage({super.key});
+
+  @override
+  State<InicioPage> createState() => _InicioPageState();
+}
+
+class _InicioPageState extends State<InicioPage> {
+  bool mostrarCuidados = false;
+
+  void cambiarVisibilidadCuidados() {
+    setState(() {
+      mostrarCuidados = !mostrarCuidados;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,8 +84,13 @@ class InicioPage extends StatelessWidget {
                 color: Color(0xFF263238),
               ),
             ),
-            const SizedBox(height: 20),
+           
+            
+            const SizedBox(height: 24),
 
+
+
+const SizedBox(height: 20),
             // Tarjeta principal de la mascota
             Card(
               elevation: 3,
@@ -392,7 +410,170 @@ class InicioPage extends StatelessWidget {
                 ),
               ),
             ),
+            SizedBox(
+  width: double.infinity,
+  child: ElevatedButton.icon(
+    onPressed: cambiarVisibilidadCuidados,
+    icon: FaIcon(
+      mostrarCuidados
+          ? FontAwesomeIcons.eyeSlash
+          : FontAwesomeIcons.calendarCheck,
+      size: 18,
+    ),
+    label: Text(
+      mostrarCuidados
+          ? 'Ocultar próximos cuidados'
+          : 'Ver próximos cuidados',
+    ),
+    style: ElevatedButton.styleFrom(
+      backgroundColor: const Color(0xFF2E7D6E),
+      foregroundColor: Colors.white,
+      padding: const EdgeInsets.symmetric(
+        vertical: 15,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+    ),
+  ),
+),
 
+if (mostrarCuidados) ...[
+  const SizedBox(height: 18),
+
+  Card(
+    elevation: 2,
+    color: const Color(0xFFEAF5F2),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(16),
+    ),
+    child: Padding(
+      padding: const EdgeInsets.all(18),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Row(
+            children: [
+              FaIcon(
+                FontAwesomeIcons.calendarDays,
+                color: Color(0xFF2E7D6E),
+                size: 21,
+              ),
+              SizedBox(width: 10),
+              Text(
+                'Próximos cuidados',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF263238),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 18),
+
+          const Row(
+            children: [
+              FaIcon(
+                FontAwesomeIcons.syringe,
+                color: Color(0xFF3976B8),
+                size: 19,
+              ),
+              SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Próxima vacuna',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      'Refuerzo anual pendiente',
+                      style: TextStyle(
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 16),
+          const Divider(),
+          const SizedBox(height: 10),
+
+          const Row(
+            children: [
+              FaIcon(
+                FontAwesomeIcons.shieldDog,
+                color: Color(0xFFC98723),
+                size: 19,
+              ),
+              SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Desparasitación',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      'Próximo control en 30 días',
+                      style: TextStyle(
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 16),
+          const Divider(),
+          const SizedBox(height: 10),
+
+          const Row(
+            children: [
+              FaIcon(
+                FontAwesomeIcons.stethoscope,
+                color: Color(0xFF7955A5),
+                size: 19,
+              ),
+              SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Control veterinario',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      'Chequeo general programado',
+                      style: TextStyle(
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ),
+  ),
+],
             const SizedBox(height: 20),
           ],
         ),

@@ -88,11 +88,29 @@ Para construir la pantalla principal se utilizaron widgets básicos de Flutter c
 
 También se utilizaron colores personalizados para mantener una identidad visual propia de MediHuella.
 
+## Interacción de la aplicación
+
+La pantalla principal incluye un botón llamado **Ver próximos cuidados**.
+
+Al presionar el botón se muestra información adicional relacionada con los próximos controles de la mascota, incluyendo:
+
+- Próxima vacuna.
+- Desparasitación.
+- Control veterinario.
+
+Para implementar esta interacción se utilizó un `StatefulWidget` junto con `setState`.
+
+La variable `mostrarCuidados` permite controlar si la información adicional se encuentra visible u oculta.
+
+Cuando se presiona nuevamente el botón, el contenido se oculta y el texto cambia a **Ocultar próximos cuidados** o **Ver próximos cuidados**, dependiendo del estado actual.
+
 ## Estado actual
 
 MediHuella cuenta actualmente con una pantalla principal funcional que muestra la ficha básica de una mascota y diferentes opciones relacionadas con su salud y cuidados.
 
-En la siguiente etapa se incorporará una interacción mediante un botón utilizando manejo de estado en Flutter.
+También dispone de una interacción mediante un botón que permite mostrar u ocultar los próximos cuidados de la mascota utilizando `StatefulWidget` y `setState`.
+
+La aplicación se ejecuta correctamente en un emulador Android.
 
 ## Autor
 
