@@ -51,9 +51,48 @@ El objetivo de MediHuella es evolucionar hasta convertirse en una aplicación qu
 
 Las funcionalidades serán incorporadas progresivamente durante las siguientes etapas del proyecto.
 
+## Pantalla principal
+
+La pantalla principal de MediHuella presenta información básica de una mascota mediante una interfaz organizada en tarjetas.
+
+Actualmente se muestran los siguientes datos de ejemplo:
+
+- Nombre de la mascota.
+- Raza.
+- Sexo.
+- Edad.
+- Peso.
+- Estado general.
+- Accesos visuales a vacunación, desparasitación y controles veterinarios.
+
+Los datos mostrados en esta primera versión son demostrativos y permitirán continuar desarrollando nuevas funcionalidades en las siguientes etapas del proyecto.
+
+## Widgets utilizados
+
+Para construir la pantalla principal se utilizaron widgets básicos de Flutter como:
+
+- `MaterialApp`
+- `Scaffold`
+- `AppBar`
+- `SingleChildScrollView`
+- `Column`
+- `Row`
+- `Card`
+- `Container`
+- `Text`
+- `Icon`
+- `FaIcon`
+- `Padding`
+- `SizedBox`
+- `Divider`
+
+También se utilizaron colores personalizados para mantener una identidad visual propia de MediHuella.
+
 ## Estado actual
 
-El proyecto cuenta actualmente con una identidad visual inicial y se ejecuta correctamente en un emulador Android.
+MediHuella cuenta actualmente con una pantalla principal funcional que muestra la ficha básica de una mascota y diferentes opciones relacionadas con su salud y cuidados.
+
+En la siguiente etapa se incorporará una interacción mediante un botón utilizando manejo de estado en Flutter.
 
 ## Autor
 
