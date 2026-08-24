@@ -1,76 +1,41 @@
-# MediHuella
+# MediHuella 🐾
 
-MediHuella es una aplicación móvil desarrollada con Flutter y Dart, orientada al registro y seguimiento de información relacionada con las mascotas.
+Aplicación móvil desarrollada con Flutter y Dart como parte de la asignatura Desarrollo de Aplicaciones Móviles.
 
-Este proyecto se desarrollará progresivamente durante las actividades de la materia Desarrollo de Aplicaciones Móviles.
+MediHuella está orientada al registro y seguimiento de información relacionada con la salud y el cuidado de las mascotas.
 
-## Primera etapa
+## Autor
 
-Durante esta primera etapa se ha realizado:
+**Kevin Geovanny Minga Espinoza**
 
-- Creación y configuración del proyecto Flutter.
-- Ejecución del proyecto en un emulador Android.
-- Creación de la identidad inicial de MediHuella.
-- Personalización de colores y nombre de la aplicación.
-- Instalación y utilización de un paquete externo.
+## Objetivo
 
-## Tecnologías utilizadas
+Desarrollar una aplicación básica en Flutter que demuestre la creación de un proyecto, el uso de widgets, la ejecución en un emulador Android, la utilización de paquetes externos, una interacción mediante manejo de estado y la publicación del proyecto en GitHub.
 
-- Flutter
-- Dart
-- Visual Studio Code
-- Android Studio
-- Android Emulator
-- GitHub
-- `flutter_launcher_icons` para generar el icono de la aplicación Android.
+Además de cumplir los requisitos de esta primera actividad, MediHuella fue planteada como un proyecto que podrá continuar evolucionando durante las siguientes actividades de la materia.
 
-## Paquete externo
+## Descripción de la aplicación
 
-Se incorporó el paquete:
+La pantalla principal de MediHuella presenta la información básica de una mascota mediante una interfaz organizada en tarjetas.
 
-`font_awesome_flutter`
+Para esta primera versión se utilizan datos demostrativos de una mascota llamada **Max**, mostrando:
 
-La instalación se realizó mediante:
-
-```bash
-flutter pub add font_awesome_flutter
-```
-
-El paquete se utiliza actualmente para mostrar el ícono de huella que forma parte de la identidad visual de MediHuella.
-
-## Objetivo del proyecto
-
-El objetivo de MediHuella es evolucionar hasta convertirse en una aplicación que permita mantener organizada información importante relacionada con las mascotas, incluyendo:
-
-- Datos generales.
-- Peso.
-- Vacunas.
-- Desparasitación.
-- Controles veterinarios.
-- Recetas médicas.
-- Próximos cuidados.
-
-Las funcionalidades serán incorporadas progresivamente durante las siguientes etapas del proyecto.
-
-## Pantalla principal
-
-La pantalla principal de MediHuella presenta información básica de una mascota mediante una interfaz organizada en tarjetas.
-
-Actualmente se muestran los siguientes datos de ejemplo:
-
-- Nombre de la mascota.
+- Nombre.
 - Raza.
 - Sexo.
 - Edad.
 - Peso.
 - Estado general.
-- Accesos visuales a vacunación, desparasitación y controles veterinarios.
+- Vacunación.
+- Desparasitación.
+- Controles veterinarios.
+- Próximos cuidados.
 
-Los datos mostrados en esta primera versión son demostrativos y permitirán continuar desarrollando nuevas funcionalidades en las siguientes etapas del proyecto.
+La aplicación utiliza una identidad visual propia basada en tonos verdes relacionados con salud y bienestar.
 
 ## Widgets utilizados
 
-Para construir la pantalla principal se utilizaron widgets básicos de Flutter como:
+Para construir la interfaz se utilizaron diferentes widgets de Flutter:
 
 - `MaterialApp`
 - `Scaffold`
@@ -86,46 +51,140 @@ Para construir la pantalla principal se utilizaron widgets básicos de Flutter c
 - `Padding`
 - `SizedBox`
 - `Divider`
+- `ElevatedButton`
 
-También se utilizaron colores personalizados para mantener una identidad visual propia de MediHuella.
+También se utilizó un `StatefulWidget` para manejar cambios dinámicos dentro de la pantalla.
+
+## Paquetes externos
+
+### font_awesome_flutter
+
+Se utilizó el paquete `font_awesome_flutter` para incorporar iconos relacionados con mascotas y salud dentro de la interfaz.
+
+Instalación:
+
+```bash
+flutter pub add font_awesome_flutter
+```
+
+Algunos de los iconos utilizados representan:
+
+- Mascota.
+- Vacunación.
+- Peso.
+- Salud.
+- Desparasitación.
+- Controles veterinarios.
+- Calendario.
+
+### flutter_launcher_icons
+
+También se utilizó `flutter_launcher_icons` para generar el icono personalizado de MediHuella en Android.
+
+Instalación:
+
+```bash
+flutter pub add --dev flutter_launcher_icons
+```
+
+La imagen principal del icono se encuentra en:
+
+```text
+assets/icon/app_icon.png
+```
+
+El icono combina una huella de mascota con un símbolo médico para representar el propósito de MediHuella.
 
 ## Interacción de la aplicación
 
-La pantalla principal incluye un botón llamado **Ver próximos cuidados**.
+La aplicación incluye el botón:
 
-Al presionar el botón se muestra información adicional relacionada con los próximos controles de la mascota, incluyendo:
+**Ver próximos cuidados**
+
+Al presionarlo se muestra información adicional relacionada con:
 
 - Próxima vacuna.
 - Desparasitación.
 - Control veterinario.
 
-Para implementar esta interacción se utilizó un `StatefulWidget` junto con `setState`.
+Para realizar esta interacción se utiliza una variable booleana llamada `mostrarCuidados`.
 
-La variable `mostrarCuidados` permite controlar si la información adicional se encuentra visible u oculta.
-Cuando se presiona nuevamente el botón, el contenido se oculta y el texto cambia a **Ocultar próximos cuidados** o **Ver próximos cuidados**, dependiendo del estado actual.
+El cambio de estado se realiza mediante:
 
-## Icono de la aplicación
+```dart
+setState(() {
+  mostrarCuidados = !mostrarCuidados;
+});
+```
 
-Se personalizó el icono de MediHuella para identificar la aplicación dentro del dispositivo Android.
+Cuando la información está visible, el botón cambia a:
 
-Para generar los diferentes tamaños requeridos por Android se utilizó el paquete:
+**Ocultar próximos cuidados**
 
-`flutter_launcher_icons`
+Al presionarlo nuevamente, la información vuelve a ocultarse.
 
-La imagen base utilizada se encuentra en:
+## Ejecución del proyecto
 
-`assets/icon/app_icon.png`
+Para ejecutar el proyecto es necesario tener Flutter y un dispositivo o emulador Android configurado.
 
-El icono combina una huella de mascota con un símbolo médico para representar el enfoque de MediHuella en el cuidado y seguimiento de la salud de las mascotas.
+Instalar las dependencias:
 
-## Estado actual
+```bash
+flutter pub get
+```
 
-MediHuella cuenta actualmente con una pantalla principal funcional que muestra la ficha básica de una mascota y diferentes opciones relacionadas con su salud y cuidados.
+Comprobar los dispositivos disponibles:
 
-También dispone de una interacción mediante un botón que permite mostrar u ocultar los próximos cuidados de la mascota utilizando `StatefulWidget` y `setState`.
+```bash
+flutter devices
+```
 
-La aplicación se ejecuta correctamente en un emulador Android.
+Ejecutar la aplicación:
 
-## Autor
+```bash
+flutter run
+```
 
-Kevin Geovanny Minga Espinoza
+También se puede seleccionar directamente un emulador utilizando:
+
+```bash
+flutter run -d ID_DEL_EMULADOR
+```
+
+## Evidencias
+
+### Configuración del entorno
+
+| Evidencia                              | Captura                                                 |
+| -------------------------------------- | ------------------------------------------------------- |
+| Ejecución de `flutter doctor`          | ![Flutter Doctor](./capturas/01_flutter_doctor.png)     |
+| Proyecto abierto en Visual Studio Code | ![Proyecto VS Code](./capturas/02_proyecto_vscode.png)  |
+| Emulador Android funcionando           | ![Emulador Android](./capturas/03_emulador_android.png) |
+
+### Paquetes externos
+
+| Evidencia                               | Captura                                                                 |
+| --------------------------------------- | ----------------------------------------------------------------------- |
+| Instalación de `font_awesome_flutter`   | ![Instalación Font Awesome](./capturas/04_instalacion_font_awesome.png) |
+| Paquete agregado en `pubspec.yaml`      | ![Pubspec Font Awesome](./capturas/05_pubspec_font_awesome.png)         |
+| Instalación de `flutter_launcher_icons` | ![Launcher Icons](./capturas/09_instalacion_launcher_icons.png)         |
+
+### Funcionamiento de MediHuella
+
+| Evidencia                                    | Captura                                                     |
+| -------------------------------------------- | ----------------------------------------------------------- |
+| Icono personalizado de MediHuella en Android | ![Icono MediHuella](./capturas/06_icono_medihuella.png)     |
+| Pantalla principal de la aplicación          | ![Pantalla Principal](./capturas/07_pantalla_principal.png) |
+| Funcionamiento del botón y próximos cuidados | ![Interacción](./capturas/08_interaccion_boton.png)         |
+
+## Estado del proyecto
+
+La primera versión de MediHuella permite visualizar la información principal de una mascota y consultar de forma interactiva sus próximos cuidados.
+
+Esta versión constituye la base del proyecto y permitirá incorporar nuevas funcionalidades en futuras actividades, como un historial más completo de salud, registros adicionales y nuevas pantallas.
+
+## Repositorio
+
+El código fuente del proyecto se encuentra publicado en GitHub:
+
+https://github.com/kevingeovanny16/PROGRAMACION-IV/tree/main/ACTIVIDAD-INTEGRADORA-1/medihuella
