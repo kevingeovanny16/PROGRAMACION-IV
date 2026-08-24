@@ -6,29 +6,55 @@ Este proyecto se desarrollará progresivamente durante las actividades de la mat
 
 ## Primera etapa
 
-En esta primera etapa se realiza:
+Durante esta primera etapa se ha realizado:
 
-- Creación del proyecto Flutter.
-- Configuración del entorno de desarrollo.
-- Ejecución inicial en un emulador Android.
-- Preparación de la estructura base del proyecto.
+- Creación y configuración del proyecto Flutter.
+- Ejecución del proyecto en un emulador Android.
+- Creación de la identidad inicial de MediHuella.
+- Personalización de colores y nombre de la aplicación.
+- Instalación y utilización de un paquete externo.
 
-## Tecnologías
+## Tecnologías utilizadas
 
 - Flutter
 - Dart
 - Visual Studio Code
 - Android Studio
 - Android Emulator
+- GitHub
 
-## Objetivo del proyecto
+## Paquete externo
 
-El objetivo de MediHuella es evolucionar hasta convertirse en una aplicación que permita llevar información importante de una mascota, como datos generales, controles, recetas, vacunas y otros registros relacionados con su cuidado.
+Se incorporó el paquete:
 
-## Estado actual
+`font_awesome_flutter`
 
-Proyecto inicial creado y configurado correctamente.
+La instalación se realizó mediante:
 
-## Autor
+```bash
+flutter pub add font_awesome_flutter
+
+El paquete se utiliza actualmente para mostrar el ícono de huella que forma parte de la identidad visual de MediHuella.
+
+Objetivo del proyecto
+
+El objetivo de MediHuella es evolucionar hasta convertirse en una aplicación que permita mantener organizada información importante relacionada con las mascotas, incluyendo:
+
+Datos generales.
+Peso.
+Vacunas.
+Desparasitación.
+Controles veterinarios.
+Recetas médicas.
+Próximos cuidados.
+
+Las funcionalidades serán incorporadas progresivamente durante las siguientes etapas del proyecto.
+
+Estado actual
+
+El proyecto cuenta actualmente con una identidad visual inicial y se ejecuta correctamente en un emulador Android.
+
+Autor
 
 Kevin Geovanny Minga Espinoza
+```
