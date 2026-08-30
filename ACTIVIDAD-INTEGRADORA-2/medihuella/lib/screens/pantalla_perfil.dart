@@ -1,3 +1,4 @@
+import 'package:medihuella/widgets/logo_medihuella.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -238,7 +239,46 @@ class PantallaPerfil extends StatelessWidget {
               ],
             ),
           ),
+          const SizedBox(height: 25),
 
+Container(
+  width: double.infinity,
+  padding: const EdgeInsets.all(16),
+  decoration: BoxDecoration(
+    color: Colors.white,
+    borderRadius: BorderRadius.circular(16),
+  ),
+  child: const Row(
+    children: [
+      LogoMediHuella(
+        tamano: 65,
+      ),
+      SizedBox(width: 15),
+      Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'MediHuella',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF2E7D6E),
+              ),
+            ),
+            SizedBox(height: 4),
+            Text(
+              'Salud y cuidados para tu mascota.',
+              style: TextStyle(
+                color: Colors.black54,
+              ),
+            ),
+          ],
+        ),
+      ),
+    ],
+  ),
+),
           const SizedBox(height: 20),
         ],
       ),
