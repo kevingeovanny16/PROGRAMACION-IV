@@ -1,5 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+
+import 'package:medihuella/providers/proveedor_mascota.dart';
 
 class TarjetaMascota extends StatelessWidget {
   const TarjetaMascota({super.key});
@@ -12,50 +17,85 @@ class TarjetaMascota extends StatelessWidget {
         padding: const EdgeInsets.all(18),
         child: Row(
           children: [
-            const CircleAvatar(
-              radius: 38,
-              backgroundColor: Color(0xFFDDEFEA),
-              child: FaIcon(
-                FontAwesomeIcons.dog,
-                size: 38,
-                color: Color(0xFF2E7D6E),
-              ),
+            Consumer<ProveedorMascota>(
+              builder: (
+                context,
+                proveedorMascota,
+                child,
+              ) {
+                if (proveedorMascota.tieneFoto) {
+                  return CircleAvatar(
+                    radius: 38,
+                    backgroundColor:
+                        const Color(0xFFDDEFEA),
+                    backgroundImage: FileImage(
+                      File(
+                        proveedorMascota.rutaFoto!,
+                      ),
+                    ),
+                  );
+                }
+
+                return const CircleAvatar(
+                  radius: 38,
+                  backgroundColor: Color(0xFFDDEFEA),
+                  child: FaIcon(
+                    FontAwesomeIcons.dog,
+                    size: 38,
+                    color: Color(0xFF2E7D6E),
+                  ),
+                );
+              },
             ),
+
             const SizedBox(width: 18),
+
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
                     'Max',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
+
                   const SizedBox(height: 4),
+
                   const Text(
                     'Golden Retriever',
-                    style: TextStyle(fontSize: 16, color: Colors.black54),
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black54,
+                    ),
                   ),
+
                   const SizedBox(height: 8),
-                  Row(
+
+                  const Row(
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.monitor_weight_outlined,
                         size: 18,
                         color: Color(0xFF2E7D6E),
                       ),
-                      const SizedBox(width: 5),
-                      const Text('27.5 kg'),
-                      const SizedBox(width: 16),
-                      const Icon(
+                      SizedBox(width: 5),
+                      Text('27.5 kg'),
+                      SizedBox(width: 16),
+                      Icon(
                         Icons.cake_outlined,
                         size: 18,
                         color: Color(0xFF2E7D6E),
                       ),
-                      const SizedBox(width: 5),
-                      const Text('2 años'),
+                      SizedBox(width: 5),
+                      Text('2 años'),
                     ],
                   ),
+
                   const SizedBox(height: 10),
+
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 12,
