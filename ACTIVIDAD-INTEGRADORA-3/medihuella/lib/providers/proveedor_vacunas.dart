@@ -39,4 +39,9 @@ class ProveedorVacunas extends ChangeNotifier {
 
     notifyListeners();
   }
+    void eliminarVacuna(Vacuna vacuna) {
+    _vacunas.remove(vacuna);
+
+    notifyListeners();
+  }
 }

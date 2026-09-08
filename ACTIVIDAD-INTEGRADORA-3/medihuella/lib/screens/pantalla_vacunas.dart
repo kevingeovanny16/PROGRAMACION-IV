@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
+import 'package:medihuella/models/vacuna.dart';
 import 'package:medihuella/providers/proveedor_vacunas.dart';
 import 'package:medihuella/widgets/tarjeta_vacuna.dart';
 
@@ -66,6 +67,68 @@ class PantallaVacunas extends StatelessWidget {
                 );
               },
               child: const Text('Registrar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void mostrarDialogoEliminarVacuna(
+    BuildContext context,
+    Vacuna vacuna,
+  ) {
+    showDialog(
+      context: context,
+      builder: (contextoDialogo) {
+        return AlertDialog(
+          title: const Row(
+            children: [
+              Icon(
+                Icons.warning_amber_rounded,
+                color: Colors.redAccent,
+              ),
+              SizedBox(width: 10),
+              Text('Eliminar vacuna'),
+            ],
+          ),
+          content: Text(
+            '¿Deseas eliminar "${vacuna.nombre}" del historial de Max?',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(contextoDialogo);
+              },
+              child: const Text('Cancelar'),
+            ),
+            ElevatedButton.icon(
+              onPressed: () {
+                context
+                    .read<ProveedorVacunas>()
+                    .eliminarVacuna(vacuna);
+
+                Navigator.pop(contextoDialogo);
+
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      '${vacuna.nombre} eliminada del historial',
+                    ),
+                    duration:
+                        const Duration(seconds: 2),
+                  ),
+                );
+              },
+              icon: const Icon(
+                Icons.delete_outline,
+              ),
+              label: const Text('Eliminar'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.redAccent,
+                foregroundColor: Colors.white,
+              ),
             ),
           ],
         );
@@ -181,8 +244,14 @@ class PantallaVacunas extends StatelessWidget {
                 itemBuilder: (context, indice) {
                   final vacuna = proveedorVacunas.vacunas[indice];
 
-                  return TarjetaVacuna(
+                return TarjetaVacuna(
                     vacuna: vacuna,
+                    alEliminar: () {
+                      mostrarDialogoEliminarVacuna(
+                        context,
+                        vacuna,
+                      );
+                    },
                   );
                 },
               ),

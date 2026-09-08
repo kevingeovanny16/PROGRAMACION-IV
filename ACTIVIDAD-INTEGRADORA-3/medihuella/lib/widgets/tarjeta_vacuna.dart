@@ -6,10 +6,12 @@ import 'package:medihuella/models/vacuna.dart';
 
 class TarjetaVacuna extends StatelessWidget {
   final Vacuna vacuna;
+  final VoidCallback? alEliminar;
 
   const TarjetaVacuna({
     super.key,
     required this.vacuna,
+    this.alEliminar,
   });
 
   @override
@@ -38,7 +40,9 @@ class TarjetaVacuna extends StatelessWidget {
                     : const Color(0xFFD79018),
               ),
             ),
+
             const SizedBox(width: 14),
+
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,6 +58,7 @@ class TarjetaVacuna extends StatelessWidget {
                           ),
                         ),
                       ),
+
                       Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 9,
@@ -63,7 +68,8 @@ class TarjetaVacuna extends StatelessWidget {
                           color: vacuna.aplicada
                               ? const Color(0xFFDDEFEA)
                               : const Color(0xFFFFF3D6),
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius:
+                              BorderRadius.circular(15),
                         ),
                         child: Text(
                           vacuna.aplicada
@@ -78,9 +84,23 @@ class TarjetaVacuna extends StatelessWidget {
                           ),
                         ),
                       ),
+
+                      if (alEliminar != null) ...[
+                        const SizedBox(width: 4),
+                        IconButton(
+                          tooltip: 'Eliminar vacuna',
+                          onPressed: alEliminar,
+                          icon: const Icon(
+                            Icons.delete_outline,
+                            color: Colors.redAccent,
+                          ),
+                        ),
+                      ],
                     ],
                   ),
+
                   const SizedBox(height: 6),
+
                   Row(
                     children: [
                       const Icon(
@@ -97,7 +117,9 @@ class TarjetaVacuna extends StatelessWidget {
                       ),
                     ],
                   ),
+
                   const SizedBox(height: 7),
+
                   Text(
                     vacuna.descripcion,
                     style: const TextStyle(
