@@ -604,3 +604,460 @@ La aplicación permite demostrar los conceptos principales estudiados durante la
 El código fuente de esta versión se encuentra en:
 
 https://github.com/kevingeovanny16/PROGRAMACION-IV/tree/main/ACTIVIDAD-INTEGRADORA-2/medihuella
+
+---
+
+# Actividad Integradora 3
+
+## Desarrollo de una aplicación Flutter con Provider y componentes reutilizables
+
+Para la **Actividad Integradora 3** se continuó el desarrollo de **MediHuella**, incorporando manejo de estado global con el paquete `provider`, listas dinámicas, modelos de datos y componentes reutilizables.
+
+La funcionalidad principal de esta versión consiste en demostrar que un cambio realizado en una pantalla puede reflejarse automáticamente en otra pantalla mediante `ChangeNotifier`, `notifyListeners()`, `ChangeNotifierProvider` y `Consumer`.
+
+## Objetivo de la Actividad 3
+
+Desarrollar una aplicación Flutter organizada en diferentes carpetas y componentes reutilizables, incorporando manejo de estado mediante `Provider`, navegación entre pantallas, listas dinámicas y actualización automática de información compartida.
+
+## Funcionalidades principales
+
+MediHuella permite en esta versión:
+
+- Navegar entre Inicio, Vacunas, Controles veterinarios y Perfil.
+- Consultar la información general de Max.
+- Visualizar el historial dinámico de vacunas.
+- Registrar nuevas vacunas mediante `AlertDialog`.
+- Eliminar vacunas con confirmación.
+- Mostrar la próxima vacuna programada.
+- Actualizar automáticamente el contador y la última vacuna mostrados en Inicio.
+- Seleccionar una fotografía de Max desde la galería.
+- Compartir la fotografía entre Perfil e Inicio mediante Provider.
+- Editar el peso y el estado de salud de Max.
+- Reflejar los datos editados automáticamente en Inicio.
+- Mostrar mensajes de confirmación mediante `SnackBar`.
+- Construir el historial mediante `ListView.builder`.
+- Utilizar modelos, datos iniciales y widgets reutilizables.
+
+## Tecnologías y paquetes utilizados
+
+- Flutter 3.47.1
+- Dart 3.13.1
+- Material Design
+- `provider: ^6.1.5+1`
+- `image_picker: ^1.2.3`
+- `intl: ^0.20.3`
+- `font_awesome_flutter: ^11.0.0`
+- `flutter_launcher_icons`
+
+### Provider
+
+El paquete `provider` administra el estado compartido de la aplicación.
+
+Instalación:
+
+```bash
+flutter pub add provider
+```
+
+### image_picker
+
+El paquete `image_picker` permite seleccionar una fotografía de la mascota desde la galería del dispositivo.
+
+```bash
+flutter pub add image_picker
+```
+
+## Organización del proyecto
+
+```text
+lib/
+├── main.dart
+├── screens/
+│   ├── pantalla_inicio.dart
+│   ├── pantalla_vacunas.dart
+│   ├── pantalla_controles.dart
+│   └── pantalla_perfil.dart
+├── providers/
+│   ├── proveedor_vacunas.dart
+│   └── proveedor_mascota.dart
+├── models/
+│   └── vacuna.dart
+├── data/
+│   └── datos_vacunas.dart
+└── widgets/
+    ├── tarjeta_acceso.dart
+    ├── tarjeta_mascota.dart
+    ├── tarjeta_vacuna.dart
+    ├── tarjeta_control.dart
+    ├── logo_medihuella.dart
+    └── resumen_vacunas.dart
+```
+
+La estructura separa las pantallas, el estado, los modelos, los datos iniciales y los componentes visuales para evitar concentrar toda la lógica en `main.dart`.
+
+## Modelo de datos
+
+Se creó la clase `Vacuna` para representar cada registro de vacunación mediante:
+
+- Nombre.
+- Fecha.
+- Descripción.
+- Estado de aplicación.
+
+De esta manera el historial trabaja con objetos tipados en lugar de mapas genéricos.
+
+## Manejo de estado con Provider
+
+La aplicación utiliza dos proveedores:
+
+```text
+ProveedorVacunas
+ProveedorMascota
+```
+
+Ambos heredan de:
+
+```dart
+ChangeNotifier
+```
+
+Cuando un dato cambia se ejecuta:
+
+```dart
+notifyListeners();
+```
+
+Esto hace que los widgets que escuchan el Provider se reconstruyan automáticamente.
+
+### Configuración global
+
+En `main.dart` se utiliza `MultiProvider`:
+
+```dart
+MultiProvider(
+  providers: [
+    ChangeNotifierProvider(
+      create: (_) => ProveedorVacunas(),
+    ),
+    ChangeNotifierProvider(
+      create: (_) => ProveedorMascota(),
+    ),
+  ],
+  child: const AplicacionMediHuella(),
+)
+```
+
+## Proveedor de vacunas
+
+`ProveedorVacunas` administra:
+
+- Lista de vacunas.
+- Cantidad de vacunas.
+- Última vacuna registrada.
+- Próxima vacuna.
+- Registro de nuevas vacunas.
+- Eliminación de vacunas.
+
+Cuando una vacuna se registra o elimina, el Provider ejecuta `notifyListeners()`. Como resultado se actualizan tanto la pantalla de Vacunas como el resumen mostrado en Inicio.
+
+```text
+Pantalla Vacunas
+      ↓
+Agregar o eliminar vacuna
+      ↓
+ProveedorVacunas
+      ↓
+notifyListeners()
+      ↓
+Vacunas actualiza su historial
+      +
+Inicio actualiza contador y última vacuna
+```
+
+Este flujo demuestra el requisito de modificar el estado en una pantalla y reflejar el cambio en otra mediante Provider.
+
+## Proveedor de mascota
+
+`ProveedorMascota` administra:
+
+- Fotografía seleccionada.
+- Peso de Max.
+- Estado de salud.
+
+Al seleccionar una foto desde Perfil:
+
+```text
+Perfil → image_picker → ProveedorMascota → notifyListeners() → Perfil e Inicio
+```
+
+Al editar el peso o el estado de salud ocurre el mismo proceso, por lo que la tarjeta de Max en Inicio cambia automáticamente.
+
+## Uso de Consumer
+
+Los cambios se escuchan mediante:
+
+```dart
+Consumer<ProveedorVacunas>
+```
+
+```dart
+Consumer<ProveedorMascota>
+```
+
+Para ejecutar acciones sin escuchar cambios permanentemente también se utiliza `context.read<...>()`.
+
+## Lista dinámica de vacunas
+
+El historial se genera con:
+
+```dart
+ListView.builder
+```
+
+Su número de elementos depende de la lista mantenida por `ProveedorVacunas`. Al agregar o eliminar un registro la lista se reconstruye automáticamente.
+
+## Registro y eliminación de vacunas
+
+El botón **Agregar vacuna** abre un `AlertDialog` donde se ingresa el nombre del nuevo registro. Después de guardar:
+
+- La vacuna aparece en el historial.
+- El contador aumenta.
+- Inicio refleja la nueva cantidad.
+- Se actualiza la última vacuna registrada.
+- Se muestra un `SnackBar`.
+
+Cada vacuna del historial también incorpora una opción de eliminación. Antes de borrar el registro se muestra un `AlertDialog` de confirmación. Si el usuario confirma, el Provider elimina la vacuna y actualiza las pantallas relacionadas.
+
+La tarjeta de **Próxima vacuna** no tiene opción de eliminar porque corresponde a una programación futura y no al historial de vacunas aplicadas.
+
+## Fotografía de la mascota
+
+Desde Perfil se puede seleccionar una imagen utilizando `ImagePicker`.
+
+Después de escogerla:
+
+- Se muestra en Perfil.
+- Se muestra en Inicio.
+- Puede cambiarse posteriormente.
+
+La fotografía se mantiene mientras la aplicación está ejecutándose. En esta actividad no se implementó almacenamiento permanente.
+
+## Edición de datos de Max
+
+La opción **Editar datos** permite cambiar:
+
+- Peso.
+- Estado de salud.
+
+Estados disponibles:
+
+```text
+Estable
+En observación
+Requiere control
+```
+
+Los cambios se reflejan automáticamente en Perfil y en la tarjeta de Max de Inicio.
+
+## Componentes reutilizables
+
+### TarjetaAcceso
+
+Permite navegar desde Inicio hacia Vacunas, Controles y Perfil.
+
+### TarjetaMascota
+
+Muestra la fotografía, peso y estado de Max leyendo los datos desde `ProveedorMascota`.
+
+### TarjetaVacuna
+
+Recibe directamente un objeto `Vacuna` y muestra nombre, fecha, descripción, estado y la opción de eliminación cuando corresponde.
+
+### TarjetaControl
+
+Representa los controles veterinarios registrados.
+
+### LogoMediHuella
+
+Reutiliza el logo de MediHuella dentro de la interfaz.
+
+### ResumenVacunas
+
+Muestra en Inicio la cantidad de vacunas, la última vacuna registrada y su fecha utilizando `Consumer<ProveedorVacunas>`.
+
+## Navegación
+
+La aplicación mantiene cuatro rutas relacionadas:
+
+```text
+/inicio
+/vacunas
+/controles
+/perfil
+```
+
+Ejemplo:
+
+```dart
+Navigator.pushNamed(context, '/vacunas');
+```
+
+## Evidencias de la Actividad Integradora 3
+
+Las evidencias se encuentran en:
+
+```text
+capturas/capturas_actividad_3/
+```
+
+### Instalación de Provider
+
+![Instalación Provider](./capturas/capturas_actividad_3/01_instalacion_provider.png)
+
+### Provider agregado en pubspec.yaml
+
+![Provider pubspec](./capturas/capturas_actividad_3/02_pubspec_provider.png)
+
+### Pantalla de Vacunas y registro dinámico
+
+![Vacuna agregada con Provider](./capturas/capturas_actividad_3/03_vacuna_agregada_provider.png)
+
+### Pantalla Inicio con estado inicial
+
+![Inicio con dos vacunas](./capturas/capturas_actividad_3/04_inicio_provider_2_vacunas.png)
+
+### Estado compartido entre Vacunas e Inicio
+
+![Inicio actualizado con Provider](./capturas/capturas_actividad_3/05_inicio_provider_actualizado.png)
+
+Esta evidencia muestra que una vacuna registrada en otra pantalla actualiza automáticamente el resumen de Inicio.
+
+### Instalación de image_picker
+
+![Instalación image picker](./capturas/capturas_actividad_3/06_instalacion_image_picker.png)
+
+### Pantalla Perfil con fotografía seleccionada
+
+![Perfil con foto](./capturas/capturas_actividad_3/07_perfil_foto_mascota.png)
+
+### Fotografía compartida en Inicio
+
+![Foto compartida](./capturas/capturas_actividad_3/08_foto_compartida_provider.png)
+
+### Perfil con datos editados
+
+![Datos editados](./capturas/capturas_actividad_3/09_perfil_datos_editados.png)
+
+### Datos editados reflejados en Inicio
+
+![Datos compartidos](./capturas/capturas_actividad_3/10_inicio_datos_compartidos.png)
+
+### Confirmación para eliminar una vacuna
+
+![Confirmación eliminar vacuna](./capturas/capturas_actividad_3/11_confirmacion_eliminar_vacuna.png)
+
+### Vacuna eliminada y estado actualizado
+
+![Vacuna eliminada](./capturas/capturas_actividad_3/12_vacuna_eliminada_provider.png)
+
+## Ejecución de la Actividad 3
+
+Obtener las dependencias:
+
+```bash
+flutter pub get
+```
+
+Comprobar los dispositivos:
+
+```bash
+flutter devices
+```
+
+Ejecutar la aplicación:
+
+```bash
+flutter run
+```
+
+También se puede indicar un dispositivo específico:
+
+```bash
+flutter run -d ID_DEL_EMULADOR
+```
+
+Durante el desarrollo se utilizó:
+
+```bash
+flutter run -d emulator-5554
+```
+
+## Cumplimiento de requisitos de la Actividad 3
+
+| Requisito | Implementación |
+| --- | --- |
+| `MaterialApp` | Configuración principal en `main.dart` |
+| `Scaffold` | Utilizado en las cuatro pantallas |
+| `AppBar` | Presente en las pantallas principales |
+| Cuatro pantallas | Inicio, Vacunas, Controles y Perfil |
+| Navegación | `Navigator` mediante rutas nombradas |
+| Organización por carpetas | `screens`, `providers`, `models`, `data` y `widgets` |
+| Provider | Estado real de vacunas y mascota |
+| `ChangeNotifier` | `ProveedorVacunas` y `ProveedorMascota` |
+| `notifyListeners()` | Ejecutado al modificar el estado |
+| `ChangeNotifierProvider` | Configurado dentro de `MultiProvider` |
+| `Consumer` | Escucha cambios de vacunas y mascota |
+| Estado compartido entre pantallas | Vacunas, foto, peso y estado de salud |
+| Lista dinámica | `ListView.builder` en el historial de vacunas |
+| Modelo | Clase `Vacuna` |
+| Widgets personalizados | TarjetaAcceso, TarjetaMascota, TarjetaVacuna, TarjetaControl, LogoMediHuella y ResumenVacunas |
+| Imágenes | Selección mediante `image_picker` |
+| Interacciones | Agregar, eliminar, editar datos, cambiar foto y navegar |
+| Evidencias | Capturas de instalación, pantallas y estado compartido |
+| Commits | Más de siete commits significativos |
+
+## Commits principales de la Actividad 3
+
+1. `Crear modelo y datos de vacunas`
+2. `Instalar y configurar Provider`
+3. `Migrar historial de vacunas a Provider`
+4. `Compartir estado de vacunación entre pantallas`
+5. `Agregar selección de foto de mascota`
+6. `Compartir foto de mascota mediante Provider`
+7. `Mejorar listas dinámicas y componentes reutilizables`
+8. `Permitir editar datos de la mascota con Provider`
+9. `Agregar eliminación de vacunas con Provider`
+10. `Actualizar README y agregar evidencias de Actividad 3`
+
+## Estado de la Actividad 3
+
+La tercera versión de MediHuella incorpora manejo de estado global con Provider y permite compartir información entre diferentes pantallas sin pasar los datos manualmente entre ellas.
+
+Se demuestra el uso de:
+
+```text
+ChangeNotifier
+notifyListeners()
+ChangeNotifierProvider
+MultiProvider
+Consumer
+ListView.builder
+Modelos
+Widgets reutilizables
+Navigator
+AlertDialog
+SnackBar
+image_picker
+```
+
+Los datos administrados mediante Provider se mantienen durante la ejecución actual de la aplicación. No se implementó persistencia en almacenamiento local o base de datos para esta actividad.
+
+## Autor
+
+**Kevin Geovanny Minga Espinoza**
+
+## Repositorio de la Actividad Integradora 3
+
+El código fuente de esta versión se encuentra en:
+
+https://github.com/kevingeovanny16/PROGRAMACION-IV/tree/main/ACTIVIDAD-INTEGRADORA-3/medihuella
