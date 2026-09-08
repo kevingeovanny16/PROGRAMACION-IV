@@ -1,9 +1,46 @@
-import 'package:medihuella/widgets/logo_medihuella.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+
+import 'package:medihuella/providers/proveedor_mascota.dart';
+import 'package:medihuella/widgets/logo_medihuella.dart';
 
 class PantallaPerfil extends StatelessWidget {
   const PantallaPerfil({super.key});
+
+  Future<void> seleccionarFoto(BuildContext context) async {
+    final ImagePicker selectorImagen = ImagePicker();
+
+    final XFile? imagenSeleccionada =
+        await selectorImagen.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 85,
+    );
+
+    if (imagenSeleccionada == null) {
+      return;
+    }
+
+    if (!context.mounted) {
+      return;
+    }
+
+    context
+        .read<ProveedorMascota>()
+        .actualizarFoto(imagenSeleccionada.path);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text(
+          'Foto de Max actualizada correctamente',
+        ),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
 
   Widget crearTarjetaDato({
     required IconData icono,
@@ -77,16 +114,64 @@ class PantallaPerfil extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               child: Column(
                 children: [
-                  const CircleAvatar(
-                    radius: 55,
-                    backgroundColor: Color(0xFFDDEFEA),
-                    child: FaIcon(
-                      FontAwesomeIcons.dog,
-                      size: 55,
-                      color: Color(0xFF2E7D6E),
-                    ),
+                  Consumer<ProveedorMascota>(
+                    builder: (
+                      context,
+                      proveedorMascota,
+                      child,
+                    ) {
+                      if (proveedorMascota.tieneFoto) {
+                        return CircleAvatar(
+                          radius: 55,
+                          backgroundColor:
+                              const Color(0xFFDDEFEA),
+                          backgroundImage: FileImage(
+                            File(
+                              proveedorMascota.rutaFoto!,
+                            ),
+                          ),
+                        );
+                      }
+
+                      return const CircleAvatar(
+                        radius: 55,
+                        backgroundColor:
+                            Color(0xFFDDEFEA),
+                        child: FaIcon(
+                          FontAwesomeIcons.dog,
+                          size: 55,
+                          color: Color(0xFF2E7D6E),
+                        ),
+                      );
+                    },
                   ),
-                  const SizedBox(height: 15),
+
+                  const SizedBox(height: 12),
+
+                  Consumer<ProveedorMascota>(
+                    builder: (
+                      context,
+                      proveedorMascota,
+                      child,
+                    ) {
+                      return OutlinedButton.icon(
+                        onPressed: () {
+                          seleccionarFoto(context);
+                        },
+                        icon: const Icon(
+                          Icons.photo_library_outlined,
+                        ),
+                        label: Text(
+                          proveedorMascota.tieneFoto
+                              ? 'Cambiar foto'
+                              : 'Agregar foto',
+                        ),
+                      );
+                    },
+                  ),
+
+                  const SizedBox(height: 12),
+
                   const Text(
                     'Max',
                     style: TextStyle(
@@ -94,7 +179,9 @@ class PantallaPerfil extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+
                   const SizedBox(height: 5),
+
                   const Text(
                     'Golden Retriever',
                     style: TextStyle(
@@ -102,7 +189,9 @@ class PantallaPerfil extends StatelessWidget {
                       color: Colors.black54,
                     ),
                   ),
+
                   const SizedBox(height: 12),
+
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 14,
@@ -110,7 +199,8 @@ class PantallaPerfil extends StatelessWidget {
                     ),
                     decoration: BoxDecoration(
                       color: const Color(0xFFDDEFEA),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius:
+                          BorderRadius.circular(20),
                     ),
                     child: const Row(
                       mainAxisSize: MainAxisSize.min,
@@ -239,46 +329,49 @@ class PantallaPerfil extends StatelessWidget {
               ],
             ),
           ),
+
           const SizedBox(height: 25),
 
-Container(
-  width: double.infinity,
-  padding: const EdgeInsets.all(16),
-  decoration: BoxDecoration(
-    color: Colors.white,
-    borderRadius: BorderRadius.circular(16),
-  ),
-  child: const Row(
-    children: [
-      LogoMediHuella(
-        tamano: 65,
-      ),
-      SizedBox(width: 15),
-      Expanded(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'MediHuella',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF2E7D6E),
-              ),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
             ),
-            SizedBox(height: 4),
-            Text(
-              'Salud y cuidados para tu mascota.',
-              style: TextStyle(
-                color: Colors.black54,
-              ),
+            child: const Row(
+              children: [
+                LogoMediHuella(
+                  tamano: 65,
+                ),
+                SizedBox(width: 15),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment:
+                        CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'MediHuella',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF2E7D6E),
+                        ),
+                      ),
+                      SizedBox(height: 4),
+                      Text(
+                        'Salud y cuidados para tu mascota.',
+                        style: TextStyle(
+                          color: Colors.black54,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    ],
-  ),
-),
+          ),
+
           const SizedBox(height: 20),
         ],
       ),

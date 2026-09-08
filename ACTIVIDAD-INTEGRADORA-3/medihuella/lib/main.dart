@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:medihuella/providers/proveedor_mascota.dart';
 import 'package:medihuella/providers/proveedor_vacunas.dart';
 import 'package:medihuella/screens/pantalla_inicio.dart';
 import 'package:medihuella/screens/pantalla_vacunas.dart';
@@ -9,8 +10,15 @@ import 'package:medihuella/screens/pantalla_perfil.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => ProveedorVacunas(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => ProveedorVacunas(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ProveedorMascota(),
+        ),
+      ],
       child: const AplicacionMediHuella(),
     ),
   );
