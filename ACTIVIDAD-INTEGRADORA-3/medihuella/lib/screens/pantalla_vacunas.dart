@@ -174,13 +174,17 @@ class PantallaVacunas extends StatelessWidget {
 
               const SizedBox(height: 12),
 
-              ...proveedorVacunas.vacunas.map(
-                (vacuna) => TarjetaVacuna(
-                  nombre: vacuna.nombre,
-                  fecha: vacuna.fecha,
-                  descripcion: vacuna.descripcion,
-                  aplicada: vacuna.aplicada,
-                ),
+            ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: proveedorVacunas.vacunas.length,
+                itemBuilder: (context, indice) {
+                  final vacuna = proveedorVacunas.vacunas[indice];
+
+                  return TarjetaVacuna(
+                    vacuna: vacuna,
+                  );
+                },
               ),
 
               const Divider(height: 32),
@@ -196,12 +200,8 @@ class PantallaVacunas extends StatelessWidget {
               const SizedBox(height: 12),
 
               TarjetaVacuna(
-                nombre: siguienteVacuna.nombre,
-                fecha: siguienteVacuna.fecha,
-                descripcion: siguienteVacuna.descripcion,
-                aplicada: siguienteVacuna.aplicada,
+                vacuna: siguienteVacuna,
               ),
-
               const SizedBox(height: 15),
 
               Container(

@@ -2,25 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
+import 'package:medihuella/models/vacuna.dart';
+
 class TarjetaVacuna extends StatelessWidget {
-  final String nombre;
-  final DateTime fecha;
-  final String descripcion;
-  final bool aplicada;
+  final Vacuna vacuna;
 
   const TarjetaVacuna({
     super.key,
-    required this.nombre,
-    required this.fecha,
-    required this.descripcion,
-    required this.aplicada,
+    required this.vacuna,
   });
 
   @override
   Widget build(BuildContext context) {
-    final String fechaFormateada = DateFormat(
-      'dd/MM/yyyy',
-    ).format(fecha);
+    final String fechaFormateada =
+        DateFormat('dd/MM/yyyy').format(vacuna.fecha);
 
     return Card(
       elevation: 2,
@@ -32,13 +27,13 @@ class TarjetaVacuna extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 23,
-              backgroundColor: aplicada
+              backgroundColor: vacuna.aplicada
                   ? const Color(0xFFDDEFEA)
                   : const Color(0xFFFFF3D6),
               child: FaIcon(
                 FontAwesomeIcons.syringe,
                 size: 19,
-                color: aplicada
+                color: vacuna.aplicada
                     ? const Color(0xFF2E7D6E)
                     : const Color(0xFFD79018),
               ),
@@ -52,7 +47,7 @@ class TarjetaVacuna extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          nombre,
+                          vacuna.nombre,
                           style: const TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.bold,
@@ -65,17 +60,19 @@ class TarjetaVacuna extends StatelessWidget {
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: aplicada
+                          color: vacuna.aplicada
                               ? const Color(0xFFDDEFEA)
                               : const Color(0xFFFFF3D6),
                           borderRadius: BorderRadius.circular(15),
                         ),
                         child: Text(
-                          aplicada ? 'Aplicada' : 'Pendiente',
+                          vacuna.aplicada
+                              ? 'Aplicada'
+                              : 'Pendiente',
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
-                            color: aplicada
+                            color: vacuna.aplicada
                                 ? const Color(0xFF2E7D6E)
                                 : const Color(0xFFD79018),
                           ),
@@ -102,7 +99,7 @@ class TarjetaVacuna extends StatelessWidget {
                   ),
                   const SizedBox(height: 7),
                   Text(
-                    descripcion,
+                    vacuna.descripcion,
                     style: const TextStyle(
                       color: Colors.black54,
                     ),
